@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"src.com.ScratchHome","l":"ControlPanel"},{"p":"src.com.ScratchHome","l":"HomeModifier"},{"p":"src.com.ScratchHome","l":"JSONAction"},{"p":"src.com.ScratchHome","l":"ScratchAction"},{"p":"src.com.ScratchHome","l":"ScratchHomePlugin"},{"p":"src.com.ScratchHome","l":"ScratchListener"}]

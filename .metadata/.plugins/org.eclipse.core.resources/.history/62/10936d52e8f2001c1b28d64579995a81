@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.4" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="src.com.ScratchHome.HomeModifier" project="ScratchHome2.0" 
+    file="/ScratchHome2.0/src/com/ScratchHome/HomeModifier.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="97" width="191" x="41" y="-75"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="src.com.ScratchHome.ControlPanel" project="ScratchHome2.0" 
+    file="/ScratchHome2.0/src/com/ScratchHome/ControlPanel.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1001" y="438"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="src.com.ScratchHome.JSONAction" project="ScratchHome2.0" 
+    file="/ScratchHome2.0/src/com/ScratchHome/JSONAction.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="259" width="371" x="272" y="-75"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="src.com.ScratchHome.ScratchListener" project="ScratchHome2.0" 
+    file="/ScratchHome2.0/src/com/ScratchHome/ScratchListener.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="349" width="322" x="340" y="224"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="src.com.ScratchHome.ScratchAction" project="ScratchHome2.0" 
+    file="/ScratchHome2.0/src/com/ScratchHome/ScratchAction.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="259" width="248" x="683" y="-75"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="src.com.ScratchHome.ScratchHomePlugin" project="ScratchHome2.0" 
+    file="/ScratchHome2.0/src/com/ScratchHome/ScratchHomePlugin.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="133" width="261" x="971" y="-75"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="7">    
+    <bendpoint x="692" y="224"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="8" name="controlPanel"/>      
+      <multiplicity id="9" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="10">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="11" name="scratchListener"/>      
+      <multiplicity id="12" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="13">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="14" name="controlpanel"/>      
+      <multiplicity id="15" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="16">    
+    <bendpoint x="713" y="224"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="17" name="sa"/>      
+      <multiplicity id="18" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
