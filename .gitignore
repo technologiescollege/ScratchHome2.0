@@ -25,3 +25,15 @@
 .metadata/.plugins/org.eclipse.ui.workbench/dialog_settings.xml
 .metadata/.plugins/org.eclipse.ui.workbench/workingsets.xml
 .metadata/.plugins/org.eclipse.core.resources/.root/3.tree
+.metadata/.plugins/org.eclipse.core.resources/.root/4.tree
+.metadata/.plugins/org.eclipse.core.resources/.root/5.tree
+.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.debug.ui.prefs
+.metadata/.plugins/org.eclipse.debug.core/.launches/New_configuration.launch
+.metadata/.plugins/org.eclipse.debug.core/.launches/SweetHome3D.launch
+.metadata/.plugins/org.eclipse.debug.ui/dialog_settings.xml
+.metadata/.plugins/org.eclipse.debug.ui/launchConfigurationHistory.xml
+.metadata/.plugins/org.eclipse.jdt.debug.ui/dialog_settings.xml
+.metadata/.plugins/org.eclipse.jdt.ui/dialog_settings.xml
+.metadata/.plugins/org.eclipse.pde.core/.cache/clean-cache.properties
+.metadata/.plugins/org.eclipse.xtend.ide/dialog_settings.xml
+.metadata/.plugins/org.eclipse.xtend.ide/resource.change.registry
