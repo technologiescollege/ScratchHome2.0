@@ -35,6 +35,7 @@ import javax.swing.filechooser.FileFilter;
 import com.eteks.sweethome3d.model.Home;
 import com.eteks.sweethome3d.model.HomePieceOfFurniture;
 import com.eteks.sweethome3d.model.Light;
+import com.eteks.sweethome3d.model.ObserverCamera;
 import com.eteks.sweethome3d.model.RecorderException;
 import com.eteks.sweethome3d.plugin.PluginAction;
 import com.eteks.sweethome3d.viewcontroller.HomeController;
@@ -257,29 +258,62 @@ public class JSONAction extends PluginAction{
 
 			ZipEntry json = new ZipEntry("project.json");
 			zos.putNextEntry(json);
-
+			float x = 0;
+			float y = 0;
+			float angle = 0;
+			ObserverCamera obs = null;
+			if ((obs = home.getObserverCamera()) != null) {
+				x = obs.getX()-200*160/250;
+				y = obs.getY()-200*360/600;
+				angle = (float) (obs.getYaw()*180/Math.PI - 180);
+			}
 			//Below the text to write in the JSON in order to be considered as correct for a Scratch project
-			text = "{\"targets\":[{\"isStage\":true,\"name\":\"Stage\",\"variables\":{\"`jEk@4|i[#Fk?(8x)AV.-my variable\":[\"ma variable\",0]},"
-					+ "\"lists\":{\"}gluuNv{HZ%+^t)=mj(/\":[\"objectList\","
-					+ listObject
-					+ "],\"P::F1Tc{*Rb0:+=#Izi:\":[\"lampList\","
-					+ listLamp
-					+ "]},\"broadcasts\":{},\"blocks\":{},\"comments\":{},\"currentCostume\":0,"
-					+ "\"costumes\":[{\"assetId\":\"cd21514d0531fdffb22204e0ec5ed84a\",\"name\":\"arrière plan1\",\"md5ext\":\"cd21514d0531fdffb22204e0ec5ed84a.svg\",\"dataFormat\":\"svg\",\"rotationCenterX\":240,\"rotationCenterY\":180}]"
-					+ ",\"sounds\":[],\"volume\":100,\"layerOrder\":0,\"tempo\":60,\"videoTransparency\":50,\"videoState\":\"on\",\"textToSpeechLanguage\":null}],"
-					+ "\"monitors\":[{\"id\":\"}gluuNv{HZ%+^t)=mj(/\",\"mode\":\"list\",\"opcode\":\"data_listcontents\",\"params\":{\"LIST\":\"objectList\"},\"spriteName\":null,\"value\":"
-					+ listObject
-					+ ",\"width\":0,\"height\":0,\"x\":5,\"y\":5,\"visible\":true},{\"id\":\"P::F1Tc{*Rb0:+=#Izi:\",\"mode\":\"list\",\"opcode\":\"data_listcontents\",\"params\":{\"LIST\":\"lampList\"},\"spriteName\":null,\"value\":"
-					+ listLamp
-					+ ",\"width\":0,\"height\":0,\"x\":378,\"y\":0,\"visible\":true}],"
-					+ "\"extensions\":[]"
-					+ ",\"meta\":{\"semver\":\"3.0.0\",\"vm\":\"0.2.0\",\"agent\":\"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:100.0) Gecko/20100101 Firefox/100.0\"}}"
-					;
+			//Add the position (x,y) and angle of the observerCamera, but also the objectList and lampList
+			text = "{\"targets\":[{\"isStage\":true,\"name\":\"Stage\",\"variables\":{},\"lists\":{},\"broadcasts\":{},\"blocks\":{},\"comments\":{},\"currentCostume\":0,\"costumes\":[{\"assetId\":\"cd21514d0531fdffb22204e0ec5ed84a\",\"name\":\"arrière plan1\",\"md5ext\":\"cd21514d0531fdffb22204e0ec5ed84a.svg\",\"dataFormat\":\"svg\",\"rotationCenterX\":240,\"rotationCenterY\":180}],\"sounds\":[],\"volume\":100,\"layerOrder\":0,\"tempo\":60,\"videoTransparency\":50,\"videoState\":\"on\",\"textToSpeechLanguage\":null},{\"isStage\":false,\"name\":\"Observer\",\"variables\":{\"qyB8Y`5SMX#TAI(NZ^^g\":[\"x\","
+					+ x+"],\"Rjo/)0ijrV3~aqDCS(Q4\":[\"y\","
+							+ y+"],\"Vw|#julY]uzB9W,_x8)@\":[\"angle\","
+									+ angle+"]},\"lists\":{\"CNn7j*SP0QT%rN4=j[xz\":[\"objectList\","
+											+ listObject+"],\"GoN|030ruZ,{H+4$)C-$\":[\"lampList\","
+													+ listLamp+"]},\"broadcasts\":{},\"blocks\":{},\"comments\":{},\"currentCostume\":0,\"costumes\":[{\"assetId\":\"bcf454acf82e4504149f7ffe07081dbc\",\"name\":\"costume1\",\"bitmapResolution\":1,\"md5ext\":\"bcf454acf82e4504149f7ffe07081dbc.svg\",\"dataFormat\":\"svg\",\"rotationCenterX\":48,\"rotationCenterY\":50}],\"sounds\":[],\"volume\":100,\"layerOrder\":1,\"visible\":true,\"x\":"
+															+ x+",\"y\":"
+																	+ y+",\"size\":100,\"direction\":"
+																			+ angle+",\"draggable\":false,\"rotationStyle\":\"all around\"}],\"monitors\":[{\"id\":\"qyB8Y`5SMX#TAI(NZ^^g\",\"mode\":\"default\",\"opcode\":\"data_variable\",\"params\":{\"VARIABLE\":\"x\"},\"spriteName\":\"Observer\",\"value\":"
+																					+ x+",\"width\":0,\"height\":0,\"x\":5,\"y\":259,\"visible\":true,\"sliderMin\":0,\"sliderMax\":100,\"isDiscrete\":true},{\"id\":\"Rjo/)0ijrV3~aqDCS(Q4\",\"mode\":\"default\",\"opcode\":\"data_variable\",\"params\":{\"VARIABLE\":\"y\"},\"spriteName\":\"Observer\",\"value\":"
+																							+ y+",\"width\":0,\"height\":0,\"x\":5,\"y\":234,\"visible\":true,\"sliderMin\":0,\"sliderMax\":100,\"isDiscrete\":true},{\"id\":\"Vw|#julY]uzB9W,_x8)@\",\"mode\":\"default\",\"opcode\":\"data_variable\",\"params\":{\"VARIABLE\":\"angle\"},\"spriteName\":\"Observer\",\"value\":"
+																									+ angle+",\"width\":0,\"height\":0,\"x\":5,\"y\":210,\"visible\":true,\"sliderMin\":0,\"sliderMax\":100,\"isDiscrete\":true},{\"id\":\"CNn7j*SP0QT%rN4=j[xz\",\"mode\":\"list\",\"opcode\":\"data_listcontents\",\"params\":{\"LIST\":\"objectList\"},\"spriteName\":\"Observer\",\"value\":"
+																											+ listObject+",\"width\":0,\"height\":0,\"x\":374,\"y\":1,\"visible\":"
+																													+ !listObject.isEmpty()+"},{\"id\":\"GoN|030ruZ,{H+4$)C-$\",\"mode\":\"list\",\"opcode\":\"data_listcontents\",\"params\":{\"LIST\":\"lampList\"},\"spriteName\":\"Observer\",\"value\":"
+																													+ listLamp+",\"width\":0,\"height\":0,\"x\":2,\"y\":1,\"visible\":"
+																															+ !listLamp.isEmpty()+"}],\"extensions\":[],\"meta\":{\"semver\":\"3.0.0\",\"vm\":\"0.2.0\",\"agent\":\"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:101.0) Gecko/20100101 Firefox/101.0\"}}";
 
 			byte[] data = text.getBytes();
 			zos.write(data, 0, data.length);
 
 			zos.closeEntry(); //don't forget to close the entry
+			
+			String currentDir = System.getProperty("user.dir");
+			System.out.println("Current dir using System:" + currentDir);
+			
+			//load the Sprite's SVG and add it to the zip
+			ZipEntry svg_sprite = new ZipEntry("bcf454acf82e4504149f7ffe07081dbc.svg");
+			zos.putNextEntry(svg_sprite);
+			
+			FileInputStream fis_sprite = null;
+			try {
+				fis_sprite = new FileInputStream(currentDir+"/images/bcf454acf82e4504149f7ffe07081dbc.svg");
+				byte[] byteBuffer = new byte[1024];
+				int bytesRead = -1;
+				while ((bytesRead = fis_sprite.read(byteBuffer)) != -1) {
+					zos.write(byteBuffer, 0, bytesRead);
+				}
+				zos.flush();
+			} finally {
+				try {
+					fis_sprite.close();
+				} catch (Exception e) {
+				}
+			}
+			zos.closeEntry();
 
 			ZipEntry svg = new ZipEntry("cd21514d0531fdffb22204e0ec5ed84a.svg");
 			zos.putNextEntry(svg);
@@ -316,12 +350,12 @@ public class JSONAction extends PluginAction{
 				double x1 = 480/width;
 				double x2 = 360/height;
 				//keep the lower value to be sure the SVG won't be trimmed
-				double x = Math.min(x1, x2);
+				double xmin = Math.min(x1, x2);
 				
 				//get the first g node in the xml file
 				Node gNode1 = doc.getElementsByTagName("g").item(0);
 				//add transform attribute to this node with the right scale factor
-				((Element)gNode1).setAttribute("transform","scale("+x+")");
+				((Element)gNode1).setAttribute("transform","scale("+xmin+")");
 				
 				//write the content into svg file
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();
