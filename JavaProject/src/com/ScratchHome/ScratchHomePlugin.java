@@ -26,6 +26,7 @@ import com.eteks.sweethome3d.viewcontroller.HomeController;
  */
 public class ScratchHomePlugin extends Plugin{
 	private static final String     APPLICATION_PLUGINS_SUB_FOLDER = "plugins";
+	public static boolean isObserverCamera = false;
 
 	/**
 	 * Method used by SH3D to get item for the menu (classes to load)
@@ -45,17 +46,19 @@ public class ScratchHomePlugin extends Plugin{
 		
 
 		Properties properties = new Properties();
+		String pluginsPath = null;
 		try {
 			//Get the folder of the plugin folder of ScratchHome
 			File [] applicationPluginsFolders = ((FileUserPreferences) getUserPreferences())
 					.getApplicationSubfolders(APPLICATION_PLUGINS_SUB_FOLDER);
-			properties.load(new FileInputStream(applicationPluginsFolders[0].getPath()+"/ScratchHome_general.properties"));
+			pluginsPath = applicationPluginsFolders[0].getPath();
+			properties.load(new FileInputStream(pluginsPath+"/ScratchHome_general.properties"));
 			} 
 			catch (IOException e) {e.printStackTrace();}
 		
 		HomeController controller = getHomeController();
 		final ScratchAction sa = new ScratchAction(home, language);
-		final JSONAction jsa = new JSONAction(home, language, properties, controller);
+		final JSONAction jsa = new JSONAction(home, language, pluginsPath,  properties, controller);
 		
 		//Put a listener on the language property, to reload the actions when it is changed
 		getUserPreferences().addPropertyChangeListener(UserPreferences.Property.LANGUAGE, new PropertyChangeListener() {
@@ -66,7 +69,9 @@ public class ScratchHomePlugin extends Plugin{
 				jsa.recharger(language);
 			}
 		});
-
+		
+		home.addPropertyChangeListener(Home.Property.CAMERA, new CameraListener());
+		
 		return new PluginAction [] {sa, jsa};
 	}
 

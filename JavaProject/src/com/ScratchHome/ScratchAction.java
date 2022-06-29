@@ -36,7 +36,6 @@ public class ScratchAction extends PluginAction {
 			thread.start();
 			control = new Thread(controlPanel);
 			control.start();
-			
 			instanciate = false;
 		}
 		setEnabled(false);

@@ -18,7 +18,7 @@ import com.eteks.sweethome3d.model.Home;
 public class ScratchListener implements Runnable{
 
 
-	private static final int PORT = 2022; // set to your extension's port number
+	private static final int PORT = 2016; // set to your extension's port number
 	
 	private static DataInputStream sockIn;
 	private static DataOutputStream sockOut;
@@ -240,6 +240,14 @@ public class ScratchListener implements Runnable{
 			HomeModifier.changeColor(hash, color, this.home);
 			sendResponse("switchOnOff -- "+modifier+" -- "+nom);
 
+		}else if (cmd[0].startsWith("getPosition")) {
+
+			ObserverInfo obsinfo = new ObserverInfo(home.getObserverCamera());
+			float x = obsinfo.getX();
+			float y = obsinfo.getY();
+			float angle = obsinfo.getAngle();
+			sendResponse("position/"+x+"/"+y+"/"+angle);
+			
 		}else {
 			sendResponse("invalide request");
 		}
