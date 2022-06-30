@@ -5,6 +5,7 @@ class ScratchHome {
     static y = 0;
     static agle = 0;
     static sprite = undefined;
+    static clickObjectlist = undefined;
 
     constructor(runtime) {
         this.runtime = runtime;
@@ -14,6 +15,11 @@ class ScratchHome {
         if (ScratchHome.sprite){
             this.objectlist = ScratchHome.sprite.lookupVariableById("CNn7j*SP0QT%rN4=j[xz");
             this.lamplist = ScratchHome.sprite.lookupVariableById("GoN|030ruZ,{H+4$)C-$");
+            var clickObjectlist = {};
+            for (let o of this.objectlist.value){
+              clickObjectlist[o] = false;
+            }
+            ScratchHome.clickObjectlist = clickObjectlist;
         }
     }
 
@@ -136,6 +142,22 @@ class ScratchHome {
             });
           }
         } 
+
+      if (this.objectlist && this.objectlist.value.length > 0){ 
+        for (let o of this.objectlist.value){
+          result.push({
+            "opcode": "isObjectClicked",
+            blockType: BlockType.BOOLEAN,
+            "text": "[object] est clické ?",
+            "arguments": {
+              "object": {
+              "type": "string",
+              "defaultValue": o
+              }                               
+            }
+          });
+        }
+      }
       result.push(
         {
             "opcode": 'getMessage',
@@ -216,9 +238,12 @@ class ScratchHome {
                 ScratchHome.sprite.setXY(ScratchHome.x,ScratchHome.y);
                 ScratchHome.sprite.setDirection(ScratchHome.angle);
                 } 
-            } else{
+            } else if (msgrec.startsWith("click")){
+                var click = msgrec.split("/")
+                ScratchHome.clickObjectlist[click[1]] = true;
+           }else{ 
                 ScratchHome.message = event.data;
-            } 
+           } 
         };
   
         this.socket.onclose = function(event) {
@@ -243,6 +268,12 @@ class ScratchHome {
           this.connect();
           this.send("switchOnOff/"+switchList+"/"+lamp);
           
+      }
+
+      isObjectClicked({object}){
+        var result = ScratchHome.clickObjectlist[object];
+        ScratchHome.clickObjectlist[object] = false;
+        return result;
       }
       /**
        * Get the current message.
