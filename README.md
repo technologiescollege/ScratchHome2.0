@@ -12,8 +12,7 @@ Video demonstration : [https://mediacad.ac-nantes.fr/m/723](https://mediacad.ac-
 
 _How to install it_ :
 
-    1. compile and export the Java project in a jar file  
-    2. export the zip file in the plugins folder of SweetHome3D
+- Take a look on the Wiki pages [https://github.com/kimokipo/ScratchHome2.0/wiki](https://github.com/kimokipo/ScratchHome2.0/wiki)
 
   
 **français**
@@ -21,9 +20,8 @@ _How to install it_ :
    Ce plugin est la version 2 de [ScratchtHome3D](https://github.com/technologiescollege/ScratchHome) développé pour la communication entre [Scratch](https://scratch.mit.edu/) et [SweetHome3D](http://sweethome3d.com/). il est mis à jour pour fonctionner avec Scratch 3 en créant l'Extension ScratchHome et il utilise un serveur Python pour relayer toutes les informations de Scratch au plugin dans SweetHome.
 
 _Comment l'installer_ :
-   
-1. télécharger le fichier zip contenant la dernière version : [https://github.com/kimokipo/ScratchHome2.0/releases/latest](https://github.com/kimokipo/ScratchHome2.0/releases/latest) 
-2. décompresser le fichier zip dans le dossier des plugins de SweetHome3D
+
+- jetez un oeil sur les pages Wiki [https://github.com/kimokipo/ScratchHome2.0/wiki](https://github.com/kimokipo/ScratchHome2.0/wiki)
      
 
 **[Article sur le blog officiel](http://www.sweethome3d.com/blog/2016/04/22/and_you_how_do_you_use_your_sweet_home_3d_episode_13.html)**
