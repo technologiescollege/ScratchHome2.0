@@ -137,24 +137,25 @@ public class JSONAction extends PluginAction{
 		}
 
 		//A list to add current 3D scene objects
-		ArrayList<String> listElem = new ArrayList<String>();
+		ArrayList<String> listElemObject = new ArrayList<String>();
+		ArrayList<String> listElemLight = new ArrayList<String>();
+		
 		//Adding objects to the previous list
 		for (HomePieceOfFurniture fourniture : home.getFurniture()) {
 			
 			if(fourniture.getDescription() == null) {
 				fourniture.setDescription(""+fourniture.hashCode());
 			}
+			if(fourniture instanceof Light){
+				listElemLight.add(fourniture.getName()+"("+fourniture.getDescription()+")");
+			}
 			if(allObject==true){
-				listElem.add(fourniture.getName()+"("+fourniture.getDescription()+")");
-			}else{
-				if(fourniture instanceof Light){
-					listElem.add(fourniture.getName()+"("+fourniture.getDescription()+")");
-				}
+				listElemObject.add(fourniture.getName()+"("+fourniture.getDescription()+")");
 			}
 		}
 
 		
-		StringBuffer vocStringBuffer = new StringBuffer();
+		StringBuffer vocStringBufferObject = new StringBuffer();
 		StringBuffer vocStringBufferLamp = new StringBuffer();
 		String typeBlocks = "blocksSimples";
 		if(menuDeroulant){
@@ -162,22 +163,26 @@ public class JSONAction extends PluginAction{
 		} 
 		//Below is the JSON to create a Scratch block for each objects/lights
 		//if all objects were chosen
-		if (allObject==true){	
-			vocStringBuffer.append("[\""+listElem.get(0)+"\"");
-			for( int i = 1; i < ((listElem.size())); i++){
-				vocStringBuffer.append(",\""+listElem.get(i)+"\"");
-			}
-			vocStringBuffer.append("]");
-			vocStringBufferLamp.append("[]");
-		//if only lights were chosen
-		}else{
-			vocStringBufferLamp.append("[\""+listElem.get(0)+"\"");
-			for( int i = 1; i < ((listElem.size())); i++){
-				vocStringBufferLamp.append(",\""+listElem.get(i)+"\"");
+		if (listElemLight.size() > 0) {
+			vocStringBufferLamp.append("[\""+listElemLight.get(0)+"\"");
+			for( int i = 1; i < ((listElemLight.size())); i++){
+				vocStringBufferLamp.append(",\""+listElemLight.get(i)+"\"");
 			}
 			vocStringBufferLamp.append("]");
-			vocStringBuffer.append("[]");
+		}else {
+			vocStringBufferLamp.append("[]");			
 		}
+		if (allObject==true){
+				vocStringBufferObject.append("[\""+listElemObject.get(0)+"\"");
+				for( int i = 1; i < ((listElemObject.size())); i++){
+					vocStringBufferObject.append(",\""+listElemObject.get(i)+"\"");
+				}
+				vocStringBufferObject.append("]");
+		//if only lights were chosen
+		}else {
+			vocStringBufferObject.append("[]");
+		}
+		
 
 		//Below the code to deal with the File filter window in order to create the Sb3 file (with a call to writeFile function)
 		this.chooser.setFileFilter(new FileFilter()
@@ -202,9 +207,9 @@ public class JSONAction extends PluginAction{
 			//check if user has written ".sb3" at the end of its file and let it or remove it 
 			if(chemin.substring(chemin.length()-4, chemin.length()).equals(".sb3")) {
 				//writeFile function is called to create a true SB3 file (that is a .zip actually)
-				this.writeFile(vocStringBuffer.toString(),vocStringBufferLamp.toString(),typeBlocks, chemin, false);
+				this.writeFile(vocStringBufferObject.toString(),vocStringBufferLamp.toString(),typeBlocks, chemin, false);
 			} else {
-				this.writeFile(vocStringBuffer.toString(),vocStringBufferLamp.toString(),typeBlocks, chemin+".sb3", false);
+				this.writeFile(vocStringBufferObject.toString(),vocStringBufferLamp.toString(),typeBlocks, chemin+".sb3", false);
 			}
 		} 
 	}
@@ -234,23 +239,13 @@ public class JSONAction extends PluginAction{
 			
 			//Below the text to write in the JSON in order to be considered as correct for a Scratch project
 			//Add the objectList and lampList and also the position (x,y) and angle of the observerCamera
-			text = "{\"targets\":[{\"isStage\":true,\"name\":\"Stage\",\"variables\":{},\"lists\":{},\"broadcasts\":{},\"blocks\":{},\"comments\":{},\"currentCostume\":0,\"costumes\":[{\"assetId\":\"cd21514d0531fdffb22204e0ec5ed84a\",\"name\":\"arrière plan1\",\"md5ext\":\"cd21514d0531fdffb22204e0ec5ed84a.svg\",\"dataFormat\":\"svg\",\"rotationCenterX\":240,\"rotationCenterY\":180}],\"sounds\":[],\"volume\":100,\"layerOrder\":0,\"tempo\":60,\"videoTransparency\":50,\"videoState\":\"on\",\"textToSpeechLanguage\":null},{\"isStage\":false,\"name\":\"Observer\",\"variables\":{\"qyB8Y`5SMX#TAI(NZ^^g\":[\"x\","
-					+ x+"],\"Rjo/)0ijrV3~aqDCS(Q4\":[\"y\","
-							+ y+"],\"Vw|#julY]uzB9W,_x8)@\":[\"angle\","
-									+ angle+"],\"L^i{fNhE#uQ8.g=D;O~O\":[\"typeBlocks\",\""
+			text = "{\"targets\":[{\"isStage\":true,\"name\":\"Stage\",\"variables\":{},\"lists\":{},\"broadcasts\":{},\"blocks\":{},\"comments\":{},\"currentCostume\":0,\"costumes\":[{\"assetId\":\"cd21514d0531fdffb22204e0ec5ed84a\",\"name\":\"arrière plan1\",\"md5ext\":\"cd21514d0531fdffb22204e0ec5ed84a.svg\",\"dataFormat\":\"svg\",\"rotationCenterX\":240,\"rotationCenterY\":180}],\"sounds\":[],\"volume\":100,\"layerOrder\":0,\"tempo\":60,\"videoTransparency\":50,\"videoState\":\"on\",\"textToSpeechLanguage\":null},{\"isStage\":false,\"name\":\"Observer\",\"variables\":{\"L^i{fNhE#uQ8.g=D;O~O\":[\"typeBlocks\",\""
 											+ typeBlocks+"\"]},\"lists\":{\"CNn7j*SP0QT%rN4=j[xz\":[\"objectList\","
 											+ listObject+"],\"GoN|030ruZ,{H+4$)C-$\":[\"lampList\","
 													+ listLamp+"]},\"broadcasts\":{},\"blocks\":{},\"comments\":{},\"currentCostume\":0,\"costumes\":[{\"assetId\":\"bcf454acf82e4504149f7ffe07081dbc\",\"name\":\"costume1\",\"bitmapResolution\":1,\"md5ext\":\"bcf454acf82e4504149f7ffe07081dbc.svg\",\"dataFormat\":\"svg\",\"rotationCenterX\":48,\"rotationCenterY\":50}],\"sounds\":[],\"volume\":100,\"layerOrder\":1,\"visible\":true,\"x\":"
 															+ x+",\"y\":"
 																	+ y+",\"size\":200,\"direction\":"
-																			+ angle+",\"draggable\":false,\"rotationStyle\":\"all around\"}],\"monitors\":[{\"id\":\"qyB8Y`5SMX#TAI(NZ^^g\",\"mode\":\"default\",\"opcode\":\"data_variable\",\"params\":{\"VARIABLE\":\"x\"},\"spriteName\":\"Observer\",\"value\":"
-																					+ x+",\"width\":0,\"height\":0,\"x\":5,\"y\":259,\"visible\":true,\"sliderMin\":0,\"sliderMax\":100,\"isDiscrete\":true},{\"id\":\"Rjo/)0ijrV3~aqDCS(Q4\",\"mode\":\"default\",\"opcode\":\"data_variable\",\"params\":{\"VARIABLE\":\"y\"},\"spriteName\":\"Observer\",\"value\":"
-																							+ y+",\"width\":0,\"height\":0,\"x\":5,\"y\":234,\"visible\":true,\"sliderMin\":0,\"sliderMax\":100,\"isDiscrete\":true},{\"id\":\"Vw|#julY]uzB9W,_x8)@\",\"mode\":\"default\",\"opcode\":\"data_variable\",\"params\":{\"VARIABLE\":\"angle\"},\"spriteName\":\"Observer\",\"value\":"
-																									+ angle+",\"width\":0,\"height\":0,\"x\":5,\"y\":210,\"visible\":true,\"sliderMin\":0,\"sliderMax\":100,\"isDiscrete\":true},{\"id\":\"CNn7j*SP0QT%rN4=j[xz\",\"mode\":\"list\",\"opcode\":\"data_listcontents\",\"params\":{\"LIST\":\"objectList\"},\"spriteName\":\"Observer\",\"value\":"
-																											+ listObject+",\"width\":0,\"height\":0,\"x\":374,\"y\":1,\"visible\":"
-																													+ !listObject.isEmpty()+"},{\"id\":\"GoN|030ruZ,{H+4$)C-$\",\"mode\":\"list\",\"opcode\":\"data_listcontents\",\"params\":{\"LIST\":\"lampList\"},\"spriteName\":\"Observer\",\"value\":"
-																													+ listLamp+",\"width\":0,\"height\":0,\"x\":2,\"y\":1,\"visible\":"
-																															+ !listLamp.isEmpty()+"}],\"extensions\":[],\"meta\":{\"semver\":\"3.0.0\",\"vm\":\"0.2.0\",\"agent\":\"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:101.0) Gecko/20100101 Firefox/101.0\"}}";
+																			+ angle+",\"draggable\":false,\"rotationStyle\":\"all around\"}],\"monitors\":[],\"extensions\":[],\"meta\":{\"semver\":\"3.0.0\",\"vm\":\"0.2.0\",\"agent\":\"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:101.0) Gecko/20100101 Firefox/101.0\"}}";
 
 			byte[] data = text.getBytes();
 			zos.write(data, 0, data.length);
