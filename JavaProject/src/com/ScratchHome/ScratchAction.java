@@ -22,6 +22,7 @@ public class ScratchAction extends PluginAction {
 	private Thread control = null;
 	private ControlPanel controlPanel = null;
 	private ScratchListener scratchListener = null;
+	private Process processus1 = null;
 
 	/**
 	 * Method called by launching ScratchAction in the plugin menu. If not launched already, launch the server listening Scratc actions.
@@ -34,6 +35,10 @@ public class ScratchAction extends PluginAction {
 			scratchListener = new ScratchListener(home, controlPanel, language);
 			thread = new Thread(scratchListener);
 			thread.start();
+			
+			// Launch Python Server
+			launchServer();
+			
 			control = new Thread(controlPanel);
 			control.start();
 			instanciate = false;
@@ -48,6 +53,7 @@ public class ScratchAction extends PluginAction {
 	 */
 	public void closeListener() {
 		scratchListener.terminate();
+	    processus1.destroy(); 
 	}
 
 	/**
@@ -68,6 +74,10 @@ public class ScratchAction extends PluginAction {
 			scratchListener = new ScratchListener(home, controlPanel, language);
 			thread = new Thread(scratchListener);
 			thread.start();
+
+			// Launch Python Server
+			launchServer();
+			
 		}
 	}
 	
@@ -91,10 +101,24 @@ public class ScratchAction extends PluginAction {
 	 * 
 	 * @param language 
 	 */
-	public void recharger(HashMap<String, String> language) {
+	public void reload(HashMap<String, String> language) {
 		this.language = language;
 		putPropertyValue(Property.NAME, language.get("ScratchActionMenu"));
 		putPropertyValue(Property.MENU, language.get("ScratchHome"));
+	}
+	
+	/**
+	 * Method to launch Python Server
+	 * 
+	 */
+	private void launchServer() {
+		String commandServer = System.getProperty("os.name").startsWith("Windows") ? ScratchHomePlugin.pluginsPath+"/ScratchHome_Server.exe" : "python3 "+ScratchHomePlugin.pluginsPath+"/ScratchHome_Server.py";
+				
+		try{
+			processus1 = Runtime.getRuntime().exec(commandServer); 	
+		}catch(Exception e){
+			e.printStackTrace();
+		} 
 	}
 
 

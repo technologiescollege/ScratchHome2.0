@@ -2,8 +2,11 @@ package src.com.ScratchHome;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
@@ -12,20 +15,28 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JCheckBox;
 
 /**
  * The view for the server. Allow to restart it or close it.
  *
  */
 public class ControlPanel implements Runnable{
-
 	private ScratchAction sa;
 	private JLabel message;
 	private JLabel status;
 	private JButton terminate;
 	private JButton reup;
+	private JCheckBox chkEnable_SH3D;
+	private JCheckBox chkDisable_SH3D;
+	private JCheckBox chkEnable_Scratch;
+	private JCheckBox chkDisable_Scratch;
 	
 	private HashMap<String, String> language;
+	
+	public static boolean automatic = true;
+	public static boolean sendToScratch = true;
+	
 	
 	/**
 	 * ControlPanel constructor
@@ -44,6 +55,14 @@ public class ControlPanel implements Runnable{
 		terminate.setFont(new java.awt.Font("MS Song", 0, 12));
 		reup = new JButton(language.get("ServerRelaunch"));
 		reup.setFont(new java.awt.Font("MS Song", 0, 12));
+		chkEnable_SH3D = new JCheckBox(language.get("Enable"));
+		chkEnable_SH3D.setFont(new java.awt.Font("MS Song", 0, 12));
+		chkDisable_SH3D = new JCheckBox(language.get("Disable"));
+		chkDisable_SH3D.setFont(new java.awt.Font("MS Song", 0, 12));
+		chkEnable_Scratch = new JCheckBox(language.get("Enable"));
+		chkEnable_Scratch.setFont(new java.awt.Font("MS Song", 0, 12));
+		chkDisable_Scratch = new JCheckBox(language.get("Disable"));
+		chkDisable_Scratch.setFont(new java.awt.Font("MS Song", 0, 12));
 	}
 	/**
 	 * Launch the control panel
@@ -73,6 +92,59 @@ public class ControlPanel implements Runnable{
 			}
 		});
 		
+		chkEnable_SH3D.setSelected( true ); 
+		chkEnable_SH3D.addItemListener(new ItemListener() {
+		      public void itemStateChanged(ItemEvent e) {
+		    	  
+		          if (e.getStateChange() == ItemEvent.SELECTED) {
+			          chkDisable_SH3D.setSelected( false ); 
+			          chkEnable_Scratch.setSelected( false ); 
+			           automatic = true;
+		          } else if (e.getStateChange() == ItemEvent.DESELECTED) {
+		        	  chkDisable_SH3D.setSelected( true ); 
+		          }
+		        }
+		      });
+		
+		chkDisable_SH3D.addItemListener(new ItemListener() {
+		      public void itemStateChanged(ItemEvent e) {
+		          if (e.getStateChange() == ItemEvent.SELECTED) {
+		        	  chkEnable_SH3D.setSelected( false ); 
+			           automatic = false;
+		          } else if (e.getStateChange() == ItemEvent.DESELECTED) {
+		        	  chkEnable_SH3D.setSelected( true ); 
+		          }
+		        }
+		      });
+		
+		chkEnable_Scratch.addItemListener(new ItemListener() {
+		      public void itemStateChanged(ItemEvent e) {
+		    	  
+		          if (e.getStateChange() == ItemEvent.SELECTED) {
+			          chkDisable_Scratch.setSelected( false ); 
+		        	  chkEnable_SH3D.setSelected( false ); 
+		        	  sendToScratch = false;
+		        	  String result = "automatic/true";
+		        	  SendToScratch.sendMessage(result);
+		          } else if (e.getStateChange() == ItemEvent.DESELECTED) {
+		        	  chkDisable_Scratch.setSelected( true ); 
+		          }
+		        }
+		      });
+
+		chkDisable_Scratch.setSelected( true ); 
+		chkDisable_Scratch.addItemListener(new ItemListener() {
+		      public void itemStateChanged(ItemEvent e) {
+		          if (e.getStateChange() == ItemEvent.SELECTED) {
+		        	  chkEnable_Scratch.setSelected( false ); 
+		        	  sendToScratch = true;
+		        	  String result = "automatic";
+		        	  SendToScratch.sendMessage(result);
+		          } else if (e.getStateChange() == ItemEvent.DESELECTED) {
+		        	  chkEnable_Scratch.setSelected( true ); 
+		          }
+		        }
+		      });
 
 		JPanel subpanelSou = new JPanel();
 		subpanelSou.add(terminate);
@@ -81,9 +153,30 @@ public class ControlPanel implements Runnable{
 		subpanelSou.add(close);
 		panel.add(subpanelSou, BorderLayout.SOUTH);
 		
-		JPanel subpanelCen = new JPanel();
-		subpanelCen.add(new JLabel(language.get("LastMessage")));
-		subpanelCen.add(message);
+		JPanel subpanelCen = new JPanel(new GridLayout( 2, 1 ));
+
+		JPanel subpanelCenUp = new JPanel();
+		JPanel subpanelCenDown = new JPanel(new GridLayout( 2, 1 ));
+		
+		JPanel subpanelCenDownSH3D = new JPanel();
+		JPanel subpanelCenDownScratch = new JPanel();
+		
+		subpanelCenUp.add(new JLabel(language.get("LastMessage")));
+		subpanelCenUp.add(message);
+		subpanelCen.add(subpanelCenUp);
+		
+		subpanelCenDownSH3D.add(new JLabel(language.get("MessageAutomatic")+" SH3D -> Scratch"),BorderLayout.NORTH);
+		subpanelCenDownSH3D.add(chkEnable_SH3D,BorderLayout.WEST);
+		subpanelCenDownSH3D.add(chkDisable_SH3D,BorderLayout.EAST);
+		subpanelCenDown.add(subpanelCenDownSH3D);
+		
+		subpanelCenDownScratch.add(new JLabel(language.get("MessageAutomatic")+" Scratch -> SH3D"),BorderLayout.NORTH);
+		subpanelCenDownScratch.add(chkEnable_Scratch,BorderLayout.WEST);
+		subpanelCenDownScratch.add(chkDisable_Scratch,BorderLayout.EAST);
+		subpanelCenDown.add(subpanelCenDownScratch);
+		
+		subpanelCen.add(subpanelCenDown);
+		
 		panel.add(subpanelCen, BorderLayout.CENTER);
 		
 		
@@ -92,10 +185,9 @@ public class ControlPanel implements Runnable{
 		subpanelNor.add(status);
 		panel.add(subpanelNor, BorderLayout.NORTH);
 		
-		
 		frame.add(panel);
       
-        frame.setSize(450,200);
+        frame.setSize(450,260);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
             @Override

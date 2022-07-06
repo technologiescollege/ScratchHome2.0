@@ -15,7 +15,9 @@ import java.util.Properties;
 import javax.swing.JOptionPane;
 
 import com.eteks.sweethome3d.io.FileUserPreferences;
+import com.eteks.sweethome3d.model.Camera;
 import com.eteks.sweethome3d.model.Home;
+import com.eteks.sweethome3d.model.ObserverCamera;
 import com.eteks.sweethome3d.model.UserPreferences;
 import com.eteks.sweethome3d.plugin.Plugin;
 import com.eteks.sweethome3d.plugin.PluginAction;
@@ -27,7 +29,8 @@ import com.eteks.sweethome3d.viewcontroller.HomeController;
  */
 public class ScratchHomePlugin extends Plugin{
 	private static final String     APPLICATION_PLUGINS_SUB_FOLDER = "plugins";
-	public static boolean isObserverCamera = false;
+	public static String pluginsPath;
+	
 
 	/**
 	 * Method used by SH3D to get item for the menu (classes to load)
@@ -47,7 +50,6 @@ public class ScratchHomePlugin extends Plugin{
 		
 
 		Properties properties = new Properties();
-		String pluginsPath = null;
 		try {
 			//Get the folder of the plugin folder of ScratchHome
 			File [] applicationPluginsFolders = ((FileUserPreferences) getUserPreferences())
@@ -66,13 +68,22 @@ public class ScratchHomePlugin extends Plugin{
 			public void propertyChange(PropertyChangeEvent arg0) {
 				getLanguage(language);
 				
-				sa.recharger(language);
-				jsa.recharger(language);
+				sa.reload(language);
+				jsa.reload(language);
 			}
 		});
+			
+		// get the current camera, if the new Camera is an Observer,
+		// then a Listener to modification of its position is added.
+		Camera cam = home.getCamera();
+		if (cam instanceof ObserverCamera) {
+			((ObserverCamera) cam).addPropertyChangeListener(new PositionCameraListener());
+		}
 		
+		// add a listener to modification of Home's Camera property.
 		home.addPropertyChangeListener(Home.Property.CAMERA, new CameraListener());
 		
+		// add a mouse listener to click events on Home's Component3D
 		HomeComponent3D comp3D = (HomeComponent3D) controller.getHomeController3D().getView();
 		comp3D.addMouseListener(new ClickListener());
 		

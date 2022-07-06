@@ -23,9 +23,10 @@ public class ScratchListener implements Runnable{
 	private static DataInputStream sockIn;
 	private static DataOutputStream sockOut;
 
-
-	private boolean running = true;
+	public static boolean running = true;
 	private ServerSocket serverSock = null;
+	
+
 
 	private Home home;
 	private ControlPanel controlpanel;
@@ -73,6 +74,7 @@ public class ScratchListener implements Runnable{
 			controlpanel.changeMessage(language.get("ServerLaunched"));
 			serverSock = new ServerSocket(PORT);
 			running = true;	
+			
 			while (running) {
 				try {
 					Socket sock = serverSock.accept();
@@ -111,8 +113,6 @@ public class ScratchListener implements Runnable{
 	 */
 	private void handleRequest() throws IOException {
 		int i;
-
-		
 
 		String header = (String)sockIn.readUTF();
 		if (header.indexOf("GET ") != 0) {
@@ -166,16 +166,13 @@ public class ScratchListener implements Runnable{
 		if(cmd[0].startsWith("setColor")) {
 
 			cmd[1] = cmd[1].replaceAll("%..", "");
-			String nom = cmd[1].substring(0,cmd[1].indexOf("("));
+			String name = cmd[1].substring(0,cmd[1].indexOf("("));
 			cmd[1] = cmd[1].substring(cmd[1].indexOf("(")+1,cmd[1].indexOf(")"));
-
-
 
 			int color = 0;
 			cmd[2] = cmd[2].toLowerCase();
 			if (cmd[2].equals(language.get("black").toLowerCase())) {
 				color = -15000000;
-				System.out.println("colorer : "+cmd[1] +" en : noir");
 			}
 			if (cmd[2].equals(language.get("blue").toLowerCase())) {
 				color = -16776961;
@@ -201,10 +198,10 @@ public class ScratchListener implements Runnable{
 			if (cmd[2].equals(language.get("yellow").toLowerCase())) {
 				color = -256;
 			}
-			controlpanel.changeMessage(cmd[0]+" -- "+nom+" -- "+cmd[2]+" -- "+color);
+			controlpanel.changeMessage(cmd[0]+" -- "+name+" -- "+cmd[2]+" -- "+color);
 
 			HomeModifier.changeColor(cmd[1], color, this.home);
-			sendResponse(cmd[0]+" -- "+nom+" -- "+cmd[2]+" -- "+color);
+			sendResponse(cmd[0]+" -- "+name+" -- "+cmd[2]+" -- "+color);
 		}else if (cmd[0].startsWith("switchOnOff")) {
 			//bloc :   	SwitchOnOff/ID/Allumer
 			//list :	SwitchOnOff/Allumer/ID
@@ -212,11 +209,11 @@ public class ScratchListener implements Runnable{
 			int color = 0;
 			String modifier = "";
 			String hash = ""; 
-			String nom = "";
+			String name = "";
 			if(cmd[1].equals(language.get("On")) || cmd[1].equals(language.get("Off"))){
 
 				cmd[2] = cmd[2].replaceAll("%..", "");
-				nom = cmd[2].substring(0,cmd[2].indexOf("("));
+				name = cmd[2].substring(0,cmd[2].indexOf("("));
 				cmd[2] = cmd[2].substring(cmd[2].indexOf("(")+1,cmd[2].indexOf(")"));
 				hash = cmd[2];
 				modifier = cmd[1];
@@ -230,26 +227,37 @@ public class ScratchListener implements Runnable{
 			modifier = modifier.toLowerCase();
 			if (modifier.equals(language.get("On").toLowerCase())) {
 				color = -256;
-				System.out.println("allumer : "+hash);
 			}
 			if (modifier.equals(language.get("Off").toLowerCase())) {
 				color = -15000000;
-				System.out.println("eteindre : "+hash);
 			}
-			controlpanel.changeMessage("switchOnOff -- "+modifier+" -- "+nom);
+			controlpanel.changeMessage("switchOnOff -- "+modifier+" -- "+name);
 			HomeModifier.changeColor(hash, color, this.home);
-			sendResponse("switchOnOff -- "+modifier+" -- "+nom);
+			sendResponse("switchOnOff -- "+modifier+" -- "+name);
 
-		}else if (cmd[0].startsWith("getPosition")) {
+		// reset the color of an object
+		}else if (cmd[0].startsWith("reset")) {
 
-			ObserverInfo obsinfo = new ObserverInfo(home.getObserverCamera());
-			float x = obsinfo.getX();
-			float y = obsinfo.getY();
-			float angle = obsinfo.getAngle();
-			sendResponse("position/"+x+"/"+y+"/"+angle);
+			cmd[1] = cmd[1].replaceAll("%..", "");
+			String name = cmd[1].substring(0,cmd[1].indexOf("("));
+			cmd[1] = cmd[1].substring(cmd[1].indexOf("(")+1,cmd[1].indexOf(")"));
+
+			controlpanel.changeMessage(cmd[0]+" -- "+name);
+			HomeModifier.resetColor(cmd[1], this.home);
+			sendResponse(cmd[0]+" -- "+name);
 			
+		// set Observer Camera's Position by the position received from Scratch
+		}else if (cmd[0].startsWith("position")) {
+			float x = Float.parseFloat(cmd[1]);
+			float y = Float.parseFloat(cmd[2]);
+			float direction = Float.parseFloat(cmd[3]);
+			
+			HomeModifier.changePosition(x, y, direction, home);
+			sendResponse("position Observer Camera updated");
+			
+		// else its an invalid request
 		}else {
-			sendResponse("invalide request");
+			sendResponse("invalid request");
 		}
 	}
 
