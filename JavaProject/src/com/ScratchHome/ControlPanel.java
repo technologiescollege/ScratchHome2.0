@@ -122,8 +122,8 @@ public class ControlPanel implements Runnable{
 		    	  
 		          if (e.getStateChange() == ItemEvent.SELECTED) {
 			          chkDisable_Scratch.setSelected( false ); 
-		        	  chkEnable_SH3D.setSelected( false ); 
 		        	  sendToScratch = false;
+		        	  chkEnable_SH3D.setSelected( false ); 
 		        	  String result = "automatic/true";
 		        	  SendToScratch.sendMessage(result);
 		          } else if (e.getStateChange() == ItemEvent.DESELECTED) {

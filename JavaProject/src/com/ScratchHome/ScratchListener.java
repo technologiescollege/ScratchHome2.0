@@ -171,31 +171,31 @@ public class ScratchListener implements Runnable{
 
 			int color = 0;
 			cmd[2] = cmd[2].toLowerCase();
-			if (cmd[2].equals(language.get("black").toLowerCase())) {
+			if (cmd[2].equals("black")) {
 				color = -15000000;
 			}
-			if (cmd[2].equals(language.get("blue").toLowerCase())) {
+			if (cmd[2].equals("blue")) {
 				color = -16776961;
 			}
-			if (cmd[2].equals(language.get("cyan").toLowerCase())) {
+			if (cmd[2].equals("cyan")) {
 				color = -16711681;
 			}
-			if (cmd[2].equals(language.get("grey").toLowerCase())) {
+			if (cmd[2].equals("grey")) {
 				color = -7829368;
 			}
-			if (cmd[2].equals(language.get("green").toLowerCase())) {
+			if (cmd[2].equals("green")) {
 				color = -16711936;
 			}
-			if (cmd[2].equals(language.get("magenta").toLowerCase())) {
+			if (cmd[2].equals("magenta")) {
 				color = -65281;
 			}
-			if (cmd[2].equals(language.get("red").toLowerCase())) {
+			if (cmd[2].equals("red")) {
 				color = -65536;
 			}
-			if (cmd[2].equals(language.get("white").toLowerCase())) {
+			if (cmd[2].equals("white")) {
 				color = -1;
 			}
-			if (cmd[2].equals(language.get("yellow").toLowerCase())) {
+			if (cmd[2].equals("yellow")) {
 				color = -256;
 			}
 			controlpanel.changeMessage(cmd[0]+" -- "+name+" -- "+cmd[2]+" -- "+color);
@@ -210,7 +210,7 @@ public class ScratchListener implements Runnable{
 			String modifier = "";
 			String hash = ""; 
 			String name = "";
-			if(cmd[1].equals(language.get("On")) || cmd[1].equals(language.get("Off"))){
+			if(cmd[1].equals("Switch On") || cmd[1].equals("Switch Off")){
 
 				cmd[2] = cmd[2].replaceAll("%..", "");
 				name = cmd[2].substring(0,cmd[2].indexOf("("));
@@ -225,10 +225,10 @@ public class ScratchListener implements Runnable{
 			}
 			
 			modifier = modifier.toLowerCase();
-			if (modifier.equals(language.get("On").toLowerCase())) {
+			if (modifier.equals("switch on")) {
 				color = -256;
 			}
-			if (modifier.equals(language.get("Off").toLowerCase())) {
+			if (modifier.equals("switch off")) {
 				color = -15000000;
 			}
 			controlpanel.changeMessage("switchOnOff -- "+modifier+" -- "+name);

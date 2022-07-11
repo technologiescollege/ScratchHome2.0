@@ -55,36 +55,97 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <association id="7">    
-    <bendpoint x="404" y="286"/>    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="8" name="controlPanel"/>      
-      <multiplicity id="9" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="10">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="11" name="scratchListener"/>      
-      <multiplicity id="12" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="13">    
+  <class id="7" language="java" name="src.com.ScratchHome.CameraListener" project="JavaProject" 
+    file="/JavaProject/src/com/ScratchHome/CameraListener.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="812" y="217"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="src.com.ScratchHome.SendToScratch" project="JavaProject" 
+    file="/JavaProject/src/com/ScratchHome/SendToScratch.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1047" y="217"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="src.com.ScratchHome.PositionCameraListener" project="JavaProject" 
+    file="/JavaProject/src/com/ScratchHome/PositionCameraListener.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1282" y="217"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="src.com.ScratchHome.ClickListener" project="JavaProject" 
+    file="/JavaProject/src/com/ScratchHome/ClickListener.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1538" y="253"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="src.com.ScratchHome.ObserverInfo" project="JavaProject" 
+    file="/JavaProject/src/com/ScratchHome/ObserverInfo.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1763" y="280"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="12">    
     <bendpoint x="425" y="286"/>    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="14" name="sa"/>      
-      <multiplicity id="15" minimum="0" maximum="1"/>    
+      <attribute id="13" name="sa">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="14" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="16">    
+  <association id="15">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="17" name="controlpanel"/>      
-      <multiplicity id="18" minimum="0" maximum="1"/>    
+      <attribute id="16" name="controlpanel">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="17" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="18">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="19" name="scratchListener">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="20" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="21">    
+    <bendpoint x="404" y="286"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="22" name="controlPanel">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="23" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  

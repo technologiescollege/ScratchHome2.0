@@ -1,7 +1,5 @@
 package src.com.ScratchHome;
 
-
-
 import java.util.HashMap;
 
 import com.eteks.sweethome3d.model.Home;
@@ -53,7 +51,10 @@ public class ScratchAction extends PluginAction {
 	 */
 	public void closeListener() {
 		scratchListener.terminate();
-	    processus1.destroy(); 
+		if (processus1 != null && processus1.isAlive()) {
+			processus1.destroy();
+		    processus1 = null;
+		}
 	}
 
 	/**
@@ -71,6 +72,7 @@ public class ScratchAction extends PluginAction {
 	 */
 	public void reupListener() {
 		if (!scratchListener.isRunning()) {
+			
 			scratchListener = new ScratchListener(home, controlPanel, language);
 			thread = new Thread(scratchListener);
 			thread.start();
@@ -112,13 +114,19 @@ public class ScratchAction extends PluginAction {
 	 * 
 	 */
 	private void launchServer() {
+
 		String commandServer = System.getProperty("os.name").startsWith("Windows") ? ScratchHomePlugin.pluginsPath+"/ScratchHome_Server.exe" : "python3 "+ScratchHomePlugin.pluginsPath+"/ScratchHome_Server.py";
 				
 		try{
-			processus1 = Runtime.getRuntime().exec(commandServer); 	
+			if (processus1 != null && processus1.isAlive()) {
+				return;
+			}else {
+				processus1 = Runtime.getRuntime().exec(commandServer); 					
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 		} 
+		
 	}
 
 
