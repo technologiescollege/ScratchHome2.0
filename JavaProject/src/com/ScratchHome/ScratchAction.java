@@ -2,8 +2,12 @@ package src.com.ScratchHome;
 
 import java.util.HashMap;
 
+import com.eteks.sweethome3d.model.Camera;
 import com.eteks.sweethome3d.model.Home;
+import com.eteks.sweethome3d.model.ObserverCamera;
 import com.eteks.sweethome3d.plugin.PluginAction;
+import com.eteks.sweethome3d.swing.HomeComponent3D;
+import com.eteks.sweethome3d.viewcontroller.HomeController;
 
 /**
  * Allow the listening of Scratch' actions and modifications on SH3D scene
@@ -16,6 +20,9 @@ public class ScratchAction extends PluginAction {
 	private HashMap<String, String> language;
 	
 	private Home home;
+	private HomeController controller;
+	public static PositionCameraListener PosCamListener;
+	private ClickListener clickListener;
 	private Thread thread = null;
 	private Thread control = null;
 	private ControlPanel controlPanel = null;
@@ -37,6 +44,9 @@ public class ScratchAction extends PluginAction {
 			// Launch Python Server
 			launchServer();
 			
+			// launch Listeners
+			launchListeners();
+			
 			control = new Thread(controlPanel);
 			control.start();
 			instanciate = false;
@@ -53,8 +63,9 @@ public class ScratchAction extends PluginAction {
 		scratchListener.terminate();
 		if (processus1 != null && processus1.isAlive()) {
 			processus1.destroy();
-		    processus1 = null;
+			processus1 = null;
 		}
+		closeListeners();	
 	}
 
 	/**
@@ -80,6 +91,9 @@ public class ScratchAction extends PluginAction {
 			// Launch Python Server
 			launchServer();
 			
+			// Launch Listeners
+			launchListeners();
+			
 		}
 	}
 	
@@ -89,8 +103,9 @@ public class ScratchAction extends PluginAction {
 	 * @param home representing the 3D scene. 
 	 * @param language the list of plugin languages.
 	 */
-	public ScratchAction(Home home, HashMap<String, String> language) {
+	public ScratchAction(Home home, HashMap<String, String> language, HomeController controller) {
 		this.home = home;
+		this.controller = controller;
 		this.language = language;
 		putPropertyValue(Property.NAME, language.get("ScratchActionMenu"));
 		putPropertyValue(Property.MENU, language.get("ScratchHome"));
@@ -129,5 +144,32 @@ public class ScratchAction extends PluginAction {
 		
 	}
 
+	private void launchListeners() {
+				// get the current camera, if the new Camera is an Observer,
+				// then a Listener to modification of its position is added.
+				Camera cam = home.getCamera();
+				if (cam instanceof ObserverCamera) {
+					PosCamListener = new PositionCameraListener();
+					((ObserverCamera) cam).addPropertyChangeListener(PosCamListener);
+				}
+				
+				// add a mouse listener to click events on Home's Component3D
+				HomeComponent3D comp3D = (HomeComponent3D) controller.getHomeController3D().getView();
+				clickListener = new ClickListener();
+				comp3D.addMouseListener(clickListener);
+	}
+	
+	private void closeListeners() {
+		// get the current camera, if the Camera is an Observer,
+		// then remove the Listener to modification of its position is added.
+		Camera cam = home.getCamera();
+		if (cam instanceof ObserverCamera) {
+			((ObserverCamera) cam).removePropertyChangeListener(PosCamListener);
+		}
+		
+		// add a mouse listener to click events on Home's Component3D
+		HomeComponent3D comp3D = (HomeComponent3D) controller.getHomeController3D().getView();
+		comp3D.removeMouseListener(clickListener);
+	}
 
 }
