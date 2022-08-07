@@ -1,7 +1,7 @@
 # ScratchHome2.0
 ![](https://raw.githubusercontent.com/technologiescollege/ScratchHome/master/scratchhome_logo.png)
 
-Video demonstration : [https://mediacad.ac-nantes.fr/m/723](https://mediacad.ac-nantes.fr/m/723)
+Video demonstration : [https://mediacad.ac-nantes.fr/m/20695](https://mediacad.ac-nantes.fr/m/20695)
 
 
 ![](https://github.com/technologiescollege/ScratchHome2.0/blob/master/documentation/8.demo_v1.5.jpg)
