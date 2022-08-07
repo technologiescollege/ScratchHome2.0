@@ -4,7 +4,7 @@
 Video demonstration : [https://mediacad.ac-nantes.fr/m/723](https://mediacad.ac-nantes.fr/m/723)
 
 
-![](http://www.sweethome3d.com/blog/images/AndYou13/PlugInScratchHomeDemo3.jpg)
+![](https://github.com/technologiescollege/ScratchHome2.0/blob/master/documentation/8.demo_v1.5.jpg)
 
 **english**
 
